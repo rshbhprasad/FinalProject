@@ -1,0 +1,63 @@
+create database tour;
+use tour;
+CREATE TABLE `tour`.`user` (
+  `user_id` INT(5) NOT NULL AUTO_INCREMENT,
+  `firstname` VARCHAR(45) NULL,
+  `lastname` VARCHAR(45) NULL,
+  `age` INT(3) NULL,
+  `gender` VARCHAR(10) NULL,
+  `contact` INT(10) NULL,
+  `address` VARCHAR(45) NULL,
+  `city` VARCHAR(45) NULL,
+  `zip` VARCHAR(10) NULL,
+  PRIMARY KEY (`user_id`));
+CREATE TABLE `tour`.`hospital` (
+  `hospital_id` INT(5) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  `address1` VARCHAR(45) NULL,
+  `address2` VARCHAR(45) NULL,
+  `city` VARCHAR(45) NULL,
+  `state` VARCHAR(45) NULL,
+  `zip` INT(6) NULL,
+  `certifications` VARCHAR(10) NULL,
+  PRIMARY KEY (`hospital_id`));
+
+CREATE TABLE `tour`.`login` (
+  `user_id` INT(5) NULL,
+  `hospital_id` INT(5) NULL,
+  `email_id` VARCHAR(45) NULL,
+  `password` VARCHAR(20) NULL,
+  `user_type` VARCHAR(10) NULL);
+
+CREATE TABLE `tour`.`doctor` (
+  `doctor_id` INT(5) NOT NULL AUTO_INCREMENT,
+  `hospital_id` INT(5) NULL,
+  `specialization` VARCHAR(45) NULL,
+  `daysOfAvailability` VARCHAR(10) NULL,
+  PRIMARY KEY (`doctor_id`));
+
+CREATE TABLE `tour`.`patient` (
+  `patient_id` INT(5) NULL,
+  `disease` VARCHAR(45) NULL,
+  `prescription_provided` VARCHAR(500) NULL,
+  `doctor_id` INT(5) NULL,
+  `date_and_time` VARCHAR(45) NULL);
+CREATE TABLE `tour`.`appointment` (
+  `user_id` INT(5) NULL,
+  `hospital_id` INT(5) NULL,
+  `timeslot` VARCHAR(45) NULL,
+  `date_of_appointment` DATE NULL);
+ALTER TABLE login
+ ADD FOREIGN KEY (user_id) REFERENCES user(user_id);
+ALTER TABLE login
+ ADD FOREIGN KEY (hospital_id) REFERENCES hospital(hospital_id);
+ALTER TABLE appointment 
+ADD FOREIGN KEY (user_id) REFERENCES user(user_id);
+ALTER TABLE appointment 
+ADD FOREIGN KEY (hospital_id) REFERENCES hospital(hospital_id);
+ALTER TABLE patient 
+ADD FOREIGN KEY (patient_id) REFERENCES user(user_id);
+ALTER TABLE patient 
+ADD FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id);
+ALTER TABLE doctor ADD FOREIGN KEY (hospital_id) REFERENCES hospital(hospital_id)
+alter table `tour`.`appointment` add unique `unique_index`(`timeslot`,`date_of_appointment`);
